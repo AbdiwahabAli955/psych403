@@ -48,4 +48,6 @@ Array exercises
 
 2. the array contained all strings python converted it to one data type
 
-3. 
+3. oddarray = np.array((list(range(1,100,2)))) or oddarray2=np.arange(1,100,2)
+
+4. logarray=np.logspace(1,5,16)
