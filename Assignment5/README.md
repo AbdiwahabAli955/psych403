@@ -1,6 +1,7 @@
 Import exercises
 Fill in the "Import Modules" section of the experiment structure:
 
+    
     import numpy as np
     from psychopy import core, gui, visual, event
     import json
@@ -10,20 +11,21 @@ Directory exercises
 
 1.
 
+    image = set(os.listdir('images'))
     pics = []
-    counter = 0
-    for i in range(10):
-        counter = counter + 1
-        pics.append('cat' + str(counter) + '.jpg')
-
-2.
-
-     for pic in pics:
-        if os.path.isdir(image_dir)) == "True"
-            print("cat1.jpg was found")
-        if os.path.isdir(image_dir)) == "False"
-            print("Image does not exist")
+    for i in range(1,11):
+        if i != 10:  
+            pics.append('face' + '0' + str(i) + '.jpg')
+        elif i == 10:
+            pics.append('face' + str(i) + '.jpg')
     
+2.    
+    
+    for pic in pics:
+        if pic in image:
+            print(pic, "was found!")
+        else:  # raise an exception if the image wasn't found
+            raise Exception(pic, "was not found!")
     
     
     
