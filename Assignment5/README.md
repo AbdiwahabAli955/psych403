@@ -14,7 +14,7 @@ Directory exercises
     counter = 0
     for i in range(10):
         counter = counter + 1
-        pics.append('cat' + str(counter).zfill(2) + '.jpg')
+        pics.append('cat' + str(counter) + '.jpg')
 
 2.
 
