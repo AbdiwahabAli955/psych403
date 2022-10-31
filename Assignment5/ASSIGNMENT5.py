@@ -2,32 +2,44 @@
 #IMPORT MODULES
 #=====================
 import numpy as np
-#-import psychopy functions
-from psychopy import core, gui, visual, event
-#-import file save functions
+from psychopy import core, gui, visual, event,data,monitors
 import json
-#-(import other functions as necessary: os...)
 import os
+import random
+from datetime import datetime
+
+
 #=====================
 #PATH SETTINGS
 #=====================
-#-define the main directory where you will keep all of your experiment files
-main_dir = os.getcwd()                                                          
+main_dir = os.getcwd()
+
 #-define the directory where you will save your data
-data_dir = os.path.join(main_dir, 'data')                
+data_dir = os.path.join(main_dir,'experiments','data')
+
 #-if you will be presenting images, define the image directory
-image_dir = os.path.join(main_dir,'imagies')            
+image_dir = os.path.join(main_dir,'experiments','imagies')
+
 #-check that these directories exist
-if not os.path.isdir(image_dir):
-    raise Exception("Could not find the path!")
-if not os.path.isdir(data_dir):
-    raise Exception("Could not find the path!")
+print(os.path.isdir(data_dir))
+print(os.path.isdir(image_dir))
 #=====================
 #COLLECT PARTICIPANT INFO
 #=====================
-#-create a dialogue box that will collect current participant number, age, gender, handedness
+exp_name = 'subject info'
+exp_info = {'session':1,'subject_nr':'', 'age':'', 'handedness':('right','left','ambi'), 
+            'gender':('male','female','other','prefer not to say')}
+
+print ("All variables have been created! Now ready to show the dialog box!")           
+dlg = gui.DlgFromDict(dictionary=exp_info, title=exp_name,order=['session','subject_nr','handedness','gender'])
+
 #get date and time
+date = datetime.now()
+exp_info['date'] = str(date.day) +'/'+ str(date.month) +'/'+ str(date.year)
 #-create a unique filename for the data
+filename = str(exp_info['subject_nr']) + '_' + exp_info['date'] + '.csv'
+sub_dir = os.path.join(main_dir,'sub_info',filename)
+
 
 #=====================
 #STIMULUS AND TRIAL SETTINGS
@@ -36,64 +48,74 @@ if not os.path.isdir(data_dir):
 Trials = 10
 Blocks = 2
 #-stimulus names (and stimulus extensions, if images) *
-cats = ['faces'] * 10
-images = ['image01.png', 'image02.png', 'image03.png', 'image04.png', 'image05.png', 'image06.png', 'image7.png', 'image8.png', 'image9.png', 'image10.png']
-
+stimulus_name = "face"
+stimulus_extension='.jpg'
 #-stimulus properties like size, orientation, location, duration *
-stimSize = [200,200]
-stimOrient = 
-stimLoc = [0,0]
-stimDur = 1
+size = (200,200)
+orientation = "landscape"
+duration = 1
+location =[0,0]
 
-startMessage = "Welcome to the experiment,please press any button to continue"
+#-start message text *
+start_msg = "Welcome to my experiment!"
+block_msg = "Press any key to continue to the next block."
+end_trial_msg = "End of trial"
+
 #=====================
 #PREPARE CONDITION LISTS
 #=====================
 #-check if files to be used during the experiment (e.g., images) exist
-image = set(os.listdir('images'))
 pics = []
-for i in range(1,11):
-    if i != 10:  
-        pics.append('face' + '0' + str(i) + '.jpg')
-    elif i == 10:
-            pics.append('face' + str(i) + '.jpg')
-
+for index in range(1,11):
+    if index < 10:
+        pics.append(stimulus_name + "0" + str(index) + stimulus_extension)
+    else:
+        pics.append(stimulus_name + str(index) + stimulus_extension)
 for pic in pics:
-    if pic in image:
-      print(pic, "was found!")
-    else:  # raise an exception if the image wasn't found
-      raise Exception(pic, "was not found!")
+    if pic in os.listdir(image_dir):
+        print(pic + " was found!")
+    else:
+        raise Exception("The image lists do not match up!")
 
 #-create counterbalanced list of all conditions *
-conditions = list(zip(cats, images))                                            # balanced list 
-
 
 #=====================
 #PREPARE DATA COLLECTION LISTS
 #=====================
-#-create an empty list for correct responses (e.g., "on this trial, a response of X is correct") *
-correct_response = []
-#-create an empty list for participant responses (e.g., "on this trial, response was a X") *
-participant_response=[]
-#-create an empty list for response accuracy collection (e.g., "was participant correct?") *
-accuracy_list = []
+#-create an empty list for correct responses (e.g., "on this trial, a response of X is  #correct") *
+CR= []
+#-create an empty list for participant responses (e.g., "on this trial, response was a  #X") *
+PR =[]
+#-create an empty list for response accuracy collection (e.g., "was participant #correct?") *
+RAC =[]
 #-create an empty list for response time collection *
-rt = []
+RT =[]
 #-create an empty list for recording the order of stimulus identities *
-record_ord_id= []
+S_ID = []
 #-create an empty list for recording the order of stimulus properties *
-record_ord_prp=[]
-
-
+S_PR=[]
 #=====================
 #CREATION OF WINDOW AND STIMULI
 #=====================
 #-define the monitor settings using psychopy functions
+mon = monitors.Monitor('myMonitor', width=33.782, distance=60)
+mon.setSizePix([2560 , 1600])
 #-define the window (size, color, units, fullscreen mode) using psychopy functions
-#-define experiment start text unsing psychopy functions
+win = visual.Window(monitor=mon, size=(800,600), color=[-1,-1,-1])
+#-define experiment start text unsing psychopy function
+my_text = visual.TextStim(win, text=start_msg)
 #-define block (start)/end text using psychopy functions
+my_text.draw()
+win.flip()
+event.waitKeys()
+win.close() 
 #-define stimuli using psychopy functions
+my_text = visual.TextStim(win) #create the text stimulus but don't define the text yet
+my_text.text = start_msg #define the text
+my_text.text = block_msg #define the text
+my_text.text = end_trial_msg #define the text
 #-create response time clock
+
 #-make mouse pointer invisible
 
 #=====================
@@ -101,40 +123,67 @@ record_ord_prp=[]
 #=====================
 #-present start message text
 #-allow participant to begin experiment with button press
+my_text.text = start_msg #define the text
+my_text.draw()
+my_text.draw()
+win.flip()
+#-allow participant to begin experiment with button press
+event.waitKeys() #wait for keypress
+
 
 #=====================
 #BLOCK SEQUENCE
 #=====================
 #-for loop for nBlocks *
-for block in range(Blocks):
-
     #-present block start message
     #-randomize order of trials here *
-    np.random.shuffle(conditions)
     #-reset response time clock here
-    
+for block in range(Blocks):
+    my_text.text = block_msg #define the text
+    np.random.shuffle(pics)
+    my_text.draw()
+    win.flip()
+    event.waitKeys()
     #=====================
     #TRIAL SEQUENCE
     #=====================    
     #-for loop for nTrials *
-    for trial in range(Trials):
-
         #-set stimuli and stimulus properties for the current trial
         #-empty keypresses
-        
-        #=====================
+    for trial in range(Trials):
+        my_image = visual.ImageStim(win)
+        my_image.image = os.path.join(image_dir,stims[trial])
+       #=====================
         #START TRIAL
-        #=====================   
-        #-draw stimulus
+        #=====================  
+        #-draw fixation
+        fix_text.draw()
         #-flip window
+        win.flip()
         #-wait time (stimulus duration)
-        #-draw stimulus
-        #-...
+        event.waitKeys()
+        
+        #-draw image
+        my_image.draw()
+        #-flip window
+        win.flip()
+        #-wait time (stimulus duration)
+        event.waitKeys()
+        
+        #-draw end trial text
+        my_text.text = end_trial_msg + str(trial) #define the text and trial #
+        my_text.draw()
+        #-flip window
+        win.flip()
+        #-wait time (stimulus duration)
+        event.waitKeys() 
         
         #-collect subject response for that trial
         #-collect subject response time for that trial
         #-collect accuracy for that trial
         
+        
+    win.close()       
 #======================
 # END OF EXPERIMENT
 #======================        
