@@ -7,7 +7,7 @@ from psychopy import core, gui, visual, event
 #-import file save functions
 import json
 #-(import other functions as necessary: os...)
-import os, random, pprint
+import os
 #=====================
 #PATH SETTINGS
 #=====================
@@ -20,7 +20,7 @@ image_dir = os.path.join(main_dir,'imagies')
 #-check that these directories exist
 if not os.path.isdir(image_dir):
     raise Exception("Could not find the path!")
-if not os.path.isdir(image_dir):
+if not os.path.isdir(data_dir):
     raise Exception("Could not find the path!")
 #=====================
 #COLLECT PARTICIPANT INFO
@@ -33,27 +33,39 @@ if not os.path.isdir(image_dir):
 #STIMULUS AND TRIAL SETTINGS
 #=====================
 #-number of trials and blocks *
-Trials = list(range(1,11))
-Blocks = list(range(1,2))
+Trials = 10
+Blocks = 2
 #-stimulus names (and stimulus extensions, if images) *
-images= ['face01', 'face02','face03', 'face4', 'face05', 'face06','face07','face08','face09','face10']
-images_ext = []
-for image in images:
-    images_ext.append( image + '.png')
+cats = ['faces'] * 10
+images = ['image01.png', 'image02.png', 'image03.png', 'image04.png', 'image05.png', 'image06.png', 'image7.png', 'image8.png', 'image9.png', 'image10.png']
 
 #-stimulus properties like size, orientation, location, duration *
-size = 40000 #(200x200)
-orientation = 
-location = center
-duration = 1 
+stimSize = [200,200]
+stimOrient = 
+stimLoc = [0,0]
+stimDur = 1
 
 startMessage = "Welcome to the experiment,please press any button to continue"
 #=====================
 #PREPARE CONDITION LISTS
 #=====================
 #-check if files to be used during the experiment (e.g., images) exist
+image = set(os.listdir('images'))
+pics = []
+for i in range(1,11):
+    if i != 10:  
+        pics.append('face' + '0' + str(i) + '.jpg')
+    elif i == 10:
+            pics.append('face' + str(i) + '.jpg')
+
+for pic in pics:
+    if pic in image:
+      print(pic, "was found!")
+    else:  # raise an exception if the image wasn't found
+      raise Exception(pic, "was not found!")
+
 #-create counterbalanced list of all conditions *
-conditions = list(zip(Trials, image))                                            # balanced list 
+conditions = list(zip(cats, images))                                            # balanced list 
 
 
 #=====================
@@ -98,7 +110,7 @@ for block in range(Blocks):
 
     #-present block start message
     #-randomize order of trials here *
-    random.shuffle(Trials)
+    np.random.shuffle(conditions)
     #-reset response time clock here
     
     #=====================
