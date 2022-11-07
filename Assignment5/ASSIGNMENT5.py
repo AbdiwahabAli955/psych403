@@ -45,7 +45,7 @@ sub_dir = os.path.join(main_dir,'sub_info',filename)
 #STIMULUS AND TRIAL SETTINGS
 #=====================
 #-number of trials and blocks *
-Trials = 10
+Trials = list(range(1,11))
 Blocks = 2
 #-stimulus names (and stimulus extensions, if images) *
 stimulus_name = "face"
@@ -78,6 +78,7 @@ for pic in pics:
         raise Exception("The image lists do not match up!")
 
 #-create counterbalanced list of all conditions *
+conditions = list(zip(pics,trials))
 
 #=====================
 #PREPARE DATA COLLECTION LISTS
