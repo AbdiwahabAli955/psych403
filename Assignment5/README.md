@@ -17,18 +17,7 @@ Directory exercises
         if i != 10:  
             pics.append('face' + '0' + str(i) + '.jpg')
         elif i == 10:
-            pics.append('face' + str(i) + '.jpg')
-    
-2.    
-    
-    for pic in pics:
-        if pic in image:
-            print(pic, "was found!")
-        else:  # raise an exception if the image wasn't found
-            raise Exception(pic, "was not found!")
-    
-    
-    
+            pics.append('face' + str(i) + '.jpg')    
     
 3.
 
@@ -39,4 +28,14 @@ Directory exercises
         raise Exception("Could not find the path!")
     if not os.path.isdir(image_dir):
         raise Exception("Could not find the path!")
+        
+        
+ 
+2.
+                                     
+    for pic in pics:
+        if pic in image:
+            print(pic, "was found!")
+        else:  # raise an exception if the image wasn't found
+            raise Exception(pic, "was not found!")
 
