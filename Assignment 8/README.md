@@ -39,8 +39,18 @@ Recording data exercises¶
     
 Save csv exercises¶
 - answer in assignment8.py file
-- 
+- csv answer in subject1session1 file
 
+
+Read JSON exercises
+
+
+
+<img width="576" alt="Screen Shot 2022-11-28 at 5 36 47 PM" src="https://user-images.githubusercontent.com/113719490/204409825-5b7b420f-18b8-4f51-8200-4622c728b856.png">
+
+
+
+read assignment8.py file
 
     
 
