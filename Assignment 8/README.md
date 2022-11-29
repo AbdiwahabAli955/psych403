@@ -38,6 +38,8 @@ Recording data exercises¶
     
     
 Save csv exercises¶
+- answer in assignment8.py file
+- 
 
 
     
