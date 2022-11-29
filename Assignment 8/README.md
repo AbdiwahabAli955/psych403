@@ -31,8 +31,14 @@ PsychoPy keypress exercises
       - It will run through the entire 2 seconds and count the total number of keys pressed in only 2 seconds 
         instead of all trials if we remove the indentation from the "if keys:" statement.
         
-Recording data exercises¶
 
-     
-    1.
+
+Recording data exercises¶
+- Answer in recording_data.py
+    
+    
+Save csv exercises¶
+
+
+    
 
