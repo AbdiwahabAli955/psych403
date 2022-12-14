@@ -13,6 +13,11 @@ Author: Abdiwahab Ali
 from psychopy import visual, core, event
 import random
 import csv
+#set the directory
+main_dir = os.getcwd()
+data_dir = os.path.join(main_dir,'data')
+if not os.path.exists(data_dir):
+    os.makedirs(data_dir)
 
 # Create a window to display the experiment
 win = visual.Window(size=(800, 600),fullscr='yes')
